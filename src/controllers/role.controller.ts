@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import HttpException from "../common/http-exception";
 import { Role, RoleDTO } from "../models/role.interface";
-import * as RoleService from "../services/role.services";
+import * as RoleService from "../services/role.service";
 
 export const getAllRoles = async (req: Request, res: Response) => {
   try {
