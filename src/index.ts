@@ -3,6 +3,7 @@ import * as dotenv from "dotenv";
 import express from "express";
 import helmet from "helmet";
 import { errorHandler } from "./middleware/error.middleware";
+import { notFoundHandler } from "./middleware/not-found.middleware";
 import { employeeRouter } from "./routes/employee.router";
 import { roleRouter } from "./routes/role.router";
 
@@ -29,3 +30,4 @@ app.listen(PORT, () => {
 app.use("/employees", employeeRouter);
 app.use("/roles", roleRouter);
 app.use(errorHandler);
+app.use(notFoundHandler);
