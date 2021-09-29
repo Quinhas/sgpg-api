@@ -4,6 +4,7 @@ import express from "express";
 import helmet from "helmet";
 import { errorHandler } from "./middleware/error.middleware";
 import { employeeRouter } from "./routes/employee.router";
+import { roleRouter } from "./routes/role.router";
 
 dotenv.config();
 
@@ -26,4 +27,5 @@ app.listen(PORT, () => {
 // Routes
 
 app.use("/employees", employeeRouter);
+app.use("/roles", roleRouter);
 app.use(errorHandler);

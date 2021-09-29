@@ -3,7 +3,9 @@ import bcrypt from "bcrypt";
 import { NextFunction, Request, Response } from "express";
 import HttpException from "../common/http-exception";
 import {
-  Employee, EmployeeDTO, EmployeeResponse
+  Employee,
+  EmployeeDTO,
+  EmployeeResponse
 } from "../models/employee.interface";
 import * as EmployeeService from "../services/employee.services";
 
@@ -24,11 +26,7 @@ export const getAllEmployees = async (req: Request, res: Response) => {
   }
 };
 
-export const getEmployeeByID = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getEmployeeByID = async (req: Request, res: Response) => {
   const id = Number(req.params.id);
   if (isNaN(id)) {
     res.status(400).send(new HttpException(400, "ID deve ser um número."));
@@ -89,45 +87,6 @@ export const createEmployee = async (
       );
       return;
     }
-
-    // let existingEmployee: Employee | null = await EmployeeService.findByCPF(
-    //   _employee.employee_cpf
-    // );
-    // if (existingEmployee) {
-    //   next(
-    //     new HttpException(
-    //       404,
-    //       `Funcionário com CPF informado já está cadastrado no banco de dados.`
-    //     )
-    //   );
-    //   return;
-    // }
-
-    // existingEmployee = await EmployeeService.findByEmail(
-    //   _employee.employee_email
-    // );
-    // if (existingEmployee) {
-    //   next(
-    //     new HttpException(
-    //       404,
-    //       `Funcionário com e-mail informado já está cadastrado no banco de dados.`
-    //     )
-    //   );
-    //   return;
-    // }
-
-    // existingEmployee = await EmployeeService.findByPhone(
-    //   _employee.employee_phone
-    // );
-    // if (existingEmployee) {
-    //   next(
-    //     new HttpException(
-    //       404,
-    //       `Funcionário com telefone informado já está cadastrado no banco de dados.`
-    //     )
-    //   );
-    //   return;
-    // }
 
     const employee: EmployeeResponse | null = await EmployeeService.create(
       _employee

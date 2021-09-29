@@ -102,10 +102,10 @@ export const create = async (
 
 export const update = async (
   id: number,
-  updatedEmploye: Partial<EmployeeDTO>
+  _updatedEmployee: Partial<EmployeeDTO>
 ): Promise<EmployeeResponse> => {
   const updatedEmployee = await prisma.employees.update({
-    data: updatedEmploye,
+    data: _updatedEmployee,
     where: { employee_id: id },
     select: select,
   });
