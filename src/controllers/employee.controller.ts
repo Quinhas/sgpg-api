@@ -7,7 +7,7 @@ import {
   EmployeeDTO,
   EmployeeResponse
 } from "../models/employee.interface";
-import * as EmployeeService from "../services/employee.services";
+import * as EmployeeService from "../services/employee.service";
 
 export const getAllEmployees = async (req: Request, res: Response) => {
   try {
