@@ -113,13 +113,17 @@ export const updateEmployee = async (
     return;
   }
 
+  const salt = bcrypt.genSaltSync(10);
+  const hash = bcrypt.hashSync(req.body.employee_password, salt);
+
   const _employee: Partial<Employee> = {
-    employee_addr: req.body.employee_addr,
+    employee_name: req.body.employee_name,
     employee_email: req.body.employee_email,
+    employee_password: hash,
+    employee_phone: req.body.employee_phone,
+    employee_addr: req.body.employee_addr,
     employee_salary: new Prisma.Decimal(req.body.employee_salary),
     employee_role: req.body.employee_role,
-    employee_name: req.body.employee_name,
-    employee_phone: req.body.employee_phone,
     is_deleted: req.body.is_deleted,
     deleted_at: req.body.is_deleted ? new Date() : null,
   };
