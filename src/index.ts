@@ -9,6 +9,10 @@ import { employeeRouter } from "./routes/employee.router";
 import { instrumentRouter } from "./routes/instrument.router";
 import { instrumentBrandRouter } from "./routes/instrumentbrand.router";
 import { roleRouter } from "./routes/role.router";
+import { eventRouter } from "./routes/event.router";
+import { instrumentTypeRouter } from "./routes/instrumenttype.router";
+import { responsibleRouter } from "./routes/responsible.router";
+import { studentRouter } from "./routes/student.router";
 
 dotenv.config();
 
@@ -35,5 +39,9 @@ app.use("/roles", roleRouter);
 app.use("/instrumentbrands", instrumentBrandRouter);
 app.use("/instruments", instrumentRouter);
 app.use("/classes", classRouter);
+app.use("/events", eventRouter);
+app.use("/instrumenttypes", instrumentTypeRouter);
+app.use("/responsibles", responsibleRouter);
+app.use("/students", studentRouter);
 app.use(errorHandler);
 app.use(notFoundHandler);

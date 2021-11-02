@@ -180,3 +180,44 @@ export const removeEmployee = async (
     res.status(500).send(new HttpException(500, error.message));
   }
 };
+export const updateEmployeeDeletionState = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const id = Number(req.params.id);
+  if (isNaN(id)) {
+    next(new HttpException(400, "ID deve ser um número."));
+    return;
+  }
+
+  const salt = bcrypt.genSaltSync(10);
+  const hash = bcrypt.hashSync(req.body.employee_password, salt);
+
+  const _employee: Partial<Employee> = {
+    is_deleted: true,
+    deleted_at: req.body.is_deleted ? new Date() : null,
+  };
+  console.log(_employee);
+  try {
+    const existingEmployee: EmployeeResponse | null =
+      await EmployeeService.findByID(id);
+    if (!existingEmployee) {
+      next(new HttpException(404, `Funcionário de ID ${id} não existe.`));
+      return;
+    }
+
+    const employee: EmployeeResponse | null = await EmployeeService.update(
+      id,
+      _employee
+    );
+
+    res.status(200).send({
+      message: `Funcionário excluído com sucesso..`,
+      data: employee,
+    });
+  } catch (_error) {
+    const error = _error as Error;
+    res.status(500).send(new HttpException(500, error.message));
+  }
+};

@@ -5,7 +5,7 @@ export interface EventDTO {
 }
 
 export interface Event extends EventDTO {
-  instrument_id: number;
+  event_id: number;
   created_at: Date;
   updated_at: Date | null;
   deleted_at: Date | null;

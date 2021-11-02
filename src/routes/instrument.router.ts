@@ -4,7 +4,8 @@ import {
   getAllInstruments,
   getInstrumentByID,
   removeInstrument,
-  updateInstrument
+  updateInstrument,
+  updateInstrumentDeletionState
 } from "../controllers/instrument.controller";
 
 export const instrumentRouter = express.Router();
@@ -13,4 +14,5 @@ instrumentRouter.get("/", getAllInstruments);
 instrumentRouter.get("/:id", getInstrumentByID);
 instrumentRouter.post("/", createInstrument);
 instrumentRouter.put("/:id", updateInstrument);
+instrumentRouter.put("/:id",updateInstrumentDeletionState);
 instrumentRouter.delete("/:id", removeInstrument);

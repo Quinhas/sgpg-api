@@ -155,3 +155,37 @@ export const removeInstrumentBrand = async (
     res.status(500).send(new HttpException(500, error.message));
   }
 };
+export const updateInstrumentBrandDeletionState = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const id = Number(req.params.id);
+  if (isNaN(id)) {
+    next(new HttpException(400, "ID deve ser um número."));
+    return;
+  }
+
+  const _instrumentBrand: Partial<InstrumentBrand> = {
+    is_deleted: true,
+    deleted_at: req.body.is_deleted ? new Date() : null,
+  };
+  console.log(_instrumentBrand);
+  try {
+    const existingInstrumentBrand: InstrumentBrand | null = await InstrumentBrandService.findByID(id);
+    if (!existingInstrumentBrand) {
+      next(new HttpException(404, `Clase de ID ${id} não existe.`));
+      return;
+    }
+
+    const deletedInstrumentBrand: InstrumentBrand | null = await InstrumentBrandService.update(id,_instrumentBrand);
+
+    res.status(200).send({
+      message: `InstrumentBrando deletado com sucesso.`,
+      data: deletedInstrumentBrand,
+    });
+  } catch (_error) {
+    const error = _error as Error;
+    res.status(500).send(new HttpException(500, error.message));
+  }
+};

@@ -143,3 +143,37 @@ export const removeInstrument = async (
     res.status(500).send(new HttpException(500, error.message));
   }
 };
+export const updateInstrumentDeletionState = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const id = Number(req.params.id);
+  if (isNaN(id)) {
+    next(new HttpException(400, "ID deve ser um número."));
+    return;
+  }
+
+  const _instrument: Partial<Instrument> = {
+    is_deleted: true,
+    deleted_at: req.body.is_deleted ? new Date() : null,
+  };
+  console.log(_instrument);
+  try {
+    const existingInstrument: Instrument | null = await InstrumentService.findByID(id);
+    if (!existingInstrument) {
+      next(new HttpException(404, `Clase de ID ${id} não existe.`));
+      return;
+    }
+
+    const deletedInstrument: Instrument | null = await InstrumentService.update(id,_instrument);
+
+    res.status(200).send({
+      message: `Instrumento deletado com sucesso.`,
+      data: deletedInstrument,
+    });
+  } catch (_error) {
+    const error = _error as Error;
+    res.status(500).send(new HttpException(500, error.message));
+  }
+};

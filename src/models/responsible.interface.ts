@@ -2,7 +2,7 @@ export interface ResponsibleDTO {
   responsible_name: string;
   responsible_cpf: string;
   responsible_email: string | null;
-  responsible_phone: string;
+  responsible_phone: string | null;
   responsible_addr: string;
   created_by: number;
 }

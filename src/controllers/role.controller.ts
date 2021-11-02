@@ -114,6 +114,41 @@ export const updateRole = async (
   }
 };
 
+export const updateRoleDeletionState = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const id = Number(req.params.id);
+  if (isNaN(id)) {
+    next(new HttpException(400, "ID deve ser um número."));
+    return;
+  }
+
+  const _role: Partial<Role> = {
+    is_deleted: true,
+    deleted_at: req.body.is_deleted ? new Date() : null,
+  };
+  console.log(_role);
+  try {
+    const existingRole: Role | null = await RoleService.findByID(id);
+    if (!existingRole) {
+      next(new HttpException(404, `Cargo de ID ${id} não existe.`));
+      return;
+    }
+
+    const role: Role | null = await RoleService.update(id, _role);
+
+    res.status(200).send({
+      message: `Cargo deletado com sucesso.`,
+      data: role,
+    });
+  } catch (_error) {
+    const error = _error as Error;
+    res.status(500).send(new HttpException(500, error.message));
+  }
+};
+
 export const removeRole = async (
   req: Request,
   res: Response,
