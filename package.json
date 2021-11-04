@@ -4,7 +4,9 @@
   "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
-    "serve": "ts-node-dev --respawn --pretty --transpile-only src/index.ts"
+    "serve": "ts-node-dev --respawn --pretty --transpile-only src/index.ts",
+    "build": "tsc --build",
+    "start": "node ./build/index.js"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
