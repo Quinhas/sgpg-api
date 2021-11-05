@@ -8,7 +8,7 @@ export const getAllResponsibles = async (req: Request, res: Response) => {
     const responsibles: Responsible[] = await ResponsibleService.findAll();
     res.status(200).send({
       message: `${responsibles.length} responsáveis retornadas.`,
-      data: responsibles,
+      records: responsibles,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -30,7 +30,7 @@ export const getResponsibleByID = async (req: Request, res: Response) => {
     if (_responsible) {
       res.status(200).send({
         message: `Responsável encontrado com sucesso.`,
-        data: _responsible,
+        records: _responsible,
       });
     } else {
       res.status(404).send({
@@ -75,7 +75,7 @@ export const createResponsible = async (
 
     res.status(201).send({
       message: `Responsável criado com sucesso.`,
-      data: newResponsible,
+      records: newResponsible,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -115,7 +115,7 @@ export const updateResponsible = async (
 
     res.status(200).send({
       message: `Responsável atualizado com sucesso.`,
-      data: updatedResponsible,
+      records: updatedResponsible,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -144,7 +144,7 @@ export const removeResponsible = async (
     const _responsible: Responsible | null = await ResponsibleService.remove(id);
     res.status(200).send({
       message: `Turma excluída com sucesso.`,
-      data: _responsible,
+      records: _responsible,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -178,7 +178,7 @@ export const updateResponsibleDeletionState = async (
 
     res.status(200).send({
       message: `Responsiblee deletada com sucesso.`,
-      data: deletedResponsible,
+      records: deletedResponsible,
     });
   } catch (_error) {
     const error = _error as Error;

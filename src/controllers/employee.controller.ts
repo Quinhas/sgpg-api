@@ -14,7 +14,7 @@ export const getAllEmployees = async (req: Request, res: Response) => {
     const employees: EmployeeResponse[] = await EmployeeService.findAll();
     res.status(200).send({
       message: `${employees.length} funcionários retornados.`,
-      data: employees,
+      records: employees,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -38,7 +38,7 @@ export const getEmployeeByID = async (req: Request, res: Response) => {
     if (employee) {
       res.status(200).send({
         message: `Funcionário encontrado com sucesso.`,
-        data: employee,
+        records: employee,
       });
     } else {
       res.status(404).send({
@@ -70,6 +70,7 @@ export const createEmployee = async (
       employee_name: req.body.employee_name,
       employee_phone: req.body.employee_phone,
       created_by: req.body.created_by,
+      is_deleted: req.body.is_deleted,
     };
 
     const existingEmployee: EmployeeResponse | null =
@@ -94,10 +95,11 @@ export const createEmployee = async (
 
     res.status(201).send({
       message: `Funcionário criado com sucesso.`,
-      data: employee,
+      records: employee,
     });
   } catch (_error) {
     const error = _error as Error;
+    console.log(error);
     res.status(500).send(new HttpException(500, error.message));
   }
 };
@@ -143,7 +145,7 @@ export const updateEmployee = async (
 
     res.status(200).send({
       message: `Funcionário atualizado com sucesso.`,
-      data: employee,
+      records: employee,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -173,7 +175,7 @@ export const removeEmployee = async (
     const employee: EmployeeResponse | null = await EmployeeService.remove(id);
     res.status(200).send({
       message: `Funcionário excluído com sucesso.`,
-      data: employee,
+      records: employee,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -214,8 +216,70 @@ export const updateEmployeeDeletionState = async (
 
     res.status(200).send({
       message: `Funcionário excluído com sucesso..`,
-      data: employee,
+      records: employee,
     });
+  } catch (_error) {
+    const error = _error as Error;
+    res.status(500).send(new HttpException(500, error.message));
+  }
+};
+
+export const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { employee_email, employee_password } = req.body;
+
+  try {
+    if (!employee_email || !employee_password) {
+      next(
+        new HttpException(400, `O e-mail e a senha são dados obrigatórios.`)
+      );
+      return;
+    }
+
+    const existingEmployee: Employee | null = await EmployeeService.findByEmail(
+      employee_email
+    );
+
+    if (!existingEmployee) {
+      next(
+        new HttpException(404, `Funcionário não cadastrado no banco de dados.`)
+      );
+      return;
+    }
+
+    const check = await bcrypt.compare(
+      employee_password,
+      existingEmployee.employee_password
+    );
+
+    const records: EmployeeResponse = {
+      employee_id: existingEmployee.employee_id,
+      employee_name: existingEmployee.employee_name,
+      employee_email: existingEmployee.employee_email,
+      employee_phone: existingEmployee.employee_phone,
+      employee_role: existingEmployee.employee_role,
+      created_by: existingEmployee.created_by,
+      created_at: existingEmployee.created_at,
+      updated_at: existingEmployee.updated_at,
+      deleted_at: existingEmployee.deleted_at,
+      is_deleted: existingEmployee.is_deleted,
+      employee_addr: existingEmployee.employee_addr,
+      employee_cpf: existingEmployee.employee_cpf,
+      employee_salary: existingEmployee.employee_salary,
+    };
+
+    if (check) {
+      res.status(200).send({
+        message: `Funcionário logado com sucesso.`,
+        records,
+      });
+    } else {
+      next(new HttpException(403, `E-mail e/ou senha estão incorretos.`));
+      return;
+    }
   } catch (_error) {
     const error = _error as Error;
     res.status(500).send(new HttpException(500, error.message));

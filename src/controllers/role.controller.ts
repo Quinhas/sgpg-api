@@ -8,7 +8,7 @@ export const getAllRoles = async (req: Request, res: Response) => {
     const roles: Role[] = await RoleService.findAll();
     res.status(200).send({
       message: `${roles.length} cargos retornados.`,
-      data: roles,
+      records: roles,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -30,7 +30,7 @@ export const getRoleByID = async (req: Request, res: Response) => {
     if (role) {
       res.status(200).send({
         message: `Cargo encontrado com sucesso.`,
-        data: role,
+        records: role,
       });
     } else {
       res.status(404).send({
@@ -69,7 +69,7 @@ export const createRole = async (
 
     res.status(201).send({
       message: `Cargo criado com sucesso.`,
-      data: role,
+      records: role,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -106,7 +106,7 @@ export const updateRole = async (
 
     res.status(200).send({
       message: `Cargo atualizado com sucesso.`,
-      data: role,
+      records: role,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -141,7 +141,7 @@ export const updateRoleDeletionState = async (
 
     res.status(200).send({
       message: `Cargo deletado com sucesso.`,
-      data: role,
+      records: role,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -170,7 +170,7 @@ export const removeRole = async (
     const role: Role | null = await RoleService.remove(id);
     res.status(200).send({
       message: `Cargo excluído com sucesso.`,
-      data: role,
+      records: role,
     });
   } catch (_error) {
     const error = _error as Error;

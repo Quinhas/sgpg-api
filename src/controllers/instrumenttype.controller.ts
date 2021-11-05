@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import HttpException from "../common/http-exception";
 import {
-  InstrumentType,
-  InstrumentTypeDTO
+    InstrumentType,
+    InstrumentTypeDTO
 } from "../models/instrumenttype.interface";
 import * as InstrumentTypeService from "../services/instrumenttype.service";
 
@@ -12,7 +12,7 @@ export const getAllInstrumentTypes = async (req: Request, res: Response) => {
       await InstrumentTypeService.findAll();
     res.status(200).send({
       message: `${instrumentTypes.length} tipos retornados.`,
-      data: instrumentTypes,
+      records: instrumentTypes,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -35,7 +35,7 @@ export const getInstrumentTypesByID = async (req: Request, res: Response) => {
     if (instrumentType) {
       res.status(200).send({
         message: `Tipo encontrado com sucesso.`,
-        data: instrumentType,
+        records: instrumentType,
       });
     } else {
       res.status(404).send({
@@ -76,7 +76,7 @@ export const createInstrumentType = async (
 
     res.status(201).send({
       message: `Tipo criado com sucesso.`,
-      data: instrumentType,
+      records: instrumentType,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -115,7 +115,7 @@ export const updateInstrumentType = async (
 
     res.status(200).send({
       message: `Tipo atualizado com sucesso.`,
-      data: instrumentType,
+      records: instrumentType,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -146,7 +146,7 @@ export const removeInstrumentType = async (
       await InstrumentTypeService.remove(id);
     res.status(200).send({
       message: `Tipo excluído com sucesso.`,
-      data: instrumentType,
+      records: instrumentType,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -180,7 +180,7 @@ export const updateInstrumentTypeDeletionState = async (
 
     res.status(200).send({
       message: `InstrumentTypee deletada com sucesso.`,
-      data: deletedInstrumentType,
+      records: deletedInstrumentType,
     });
   } catch (_error) {
     const error = _error as Error;

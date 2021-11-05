@@ -1,5 +1,9 @@
 import { PrismaClient } from "@prisma/client";
-import { EmployeeDTO, EmployeeResponse } from "../models/employee.interface";
+import {
+  Employee,
+  EmployeeDTO,
+  EmployeeResponse
+} from "../models/employee.interface";
 
 const prisma = new PrismaClient();
 
@@ -36,12 +40,9 @@ export const findByID = async (
   return employee;
 };
 
-export const findByEmail = async (
-  email: string
-): Promise<EmployeeResponse | null> => {
+export const findByEmail = async (email: string): Promise<Employee | null> => {
   const employee = await prisma.employees.findUnique({
     where: { employee_email: email },
-    select: select,
   });
   return employee;
 };

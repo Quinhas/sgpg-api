@@ -8,7 +8,7 @@ export const getAllEvents = async (req: Request, res: Response) => {
     const events: Event[] = await EventService.findAll();
     res.status(200).send({
       message: `${events.length} Eventos retornados.`,
-      data: events,
+      records: events,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -30,7 +30,7 @@ export const getEventByID = async (req: Request, res: Response) => {
     if (_event) {
       res.status(200).send({
         message: `Evento encontrado com sucesso.`,
-        data: _event,
+        records: _event,
       });
     } else {
       res.status(404).send({
@@ -59,7 +59,7 @@ export const createEvent = async (
     const newEvent: Event | null = await EventService.create(_event);
     res.status(201).send({
       message: `Evento criado com sucesso.`,
-      data: newEvent,
+      records: newEvent,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -95,7 +95,7 @@ export const updateEvent = async (
 
     res.status(200).send({
       message: `Evento atualizado com sucesso.`,
-      data: updatedEvent,
+      records: updatedEvent,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -124,7 +124,7 @@ export const removeEvent = async (
     const _event: Event | null = await EventService.remove(id);
     res.status(200).send({
       message: `Evento excluído com sucesso.`,
-      data: _event,
+      records: _event,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -158,7 +158,7 @@ export const updateEventDeletionState = async (
 
     res.status(200).send({
       message: `Evento deletado com sucesso.`,
-      data: deletedEvent,
+      records: deletedEvent,
     });
   } catch (_error) {
     const error = _error as Error;

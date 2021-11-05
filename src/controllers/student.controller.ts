@@ -8,7 +8,7 @@ export const getAllStudents = async (req: Request, res: Response) => {
     const students: Student[] = await StudentService.findAll();
     res.status(200).send({
       message: `${students.length} Estudantes retornados.`,
-      data: students,
+      records: students,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -30,7 +30,7 @@ export const getStudentByID = async (req: Request, res: Response) => {
     if (_student) {
       res.status(200).send({
         message: `Estudante encontrado com sucesso.`,
-        data: _student,
+        records: _student,
       });
     } else {
       res.status(404).send({
@@ -78,7 +78,7 @@ export const createStudent = async (
 
     res.status(201).send({
       message: `Estudente criado com sucesso.`,
-      data: newStudent,
+      records: newStudent,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -121,7 +121,7 @@ export const updateStudent = async (
 
     res.status(200).send({
       message: `Estudante atualizado com sucesso.`,
-      data: updatedStudent,
+      records: updatedStudent,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -150,7 +150,7 @@ export const removeStudent = async (
     const _student: Student | null = await StudentService.remove(id);
     res.status(200).send({
       message: `Turma excluída com sucesso.`,
-      data: _student,
+      records: _student,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -184,7 +184,7 @@ export const updateStudentDeletionState = async (
 
     res.status(200).send({
       message: `Studente deletada com sucesso.`,
-      data: deletedStudent,
+      records: deletedStudent,
     });
   } catch (_error) {
     const error = _error as Error;

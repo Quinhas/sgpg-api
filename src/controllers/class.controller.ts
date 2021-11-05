@@ -8,7 +8,7 @@ export const getAllClasses = async (req: Request, res: Response) => {
     const classes: Class[] = await ClassService.findAll();
     res.status(200).send({
       message: `${classes.length} turmas retornadas.`,
-      data: classes,
+      records: classes,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -30,7 +30,7 @@ export const getClassByID = async (req: Request, res: Response) => {
     if (_class) {
       res.status(200).send({
         message: `Turma encontrada com sucesso.`,
-        data: _class,
+        records: _class,
       });
     } else {
       res.status(404).send({
@@ -72,7 +72,7 @@ export const createClass = async (
 
     res.status(201).send({
       message: `Turma criada com sucesso.`,
-      data: newClass,
+      records: newClass,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -111,7 +111,7 @@ export const updateClass = async (
 
     res.status(200).send({
       message: `Turma atualizada com sucesso.`,
-      data: updatedClass,
+      records: updatedClass,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -140,7 +140,7 @@ export const removeClass = async (
     const _class: Class | null = await ClassService.remove(id);
     res.status(200).send({
       message: `Turma excluída com sucesso.`,
-      data: _class,
+      records: _class,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -174,7 +174,7 @@ export const updateClassDeletionState = async (
 
     res.status(200).send({
       message: `Classe deletada com sucesso.`,
-      data: deletedClass,
+      records: deletedClass,
     });
   } catch (_error) {
     const error = _error as Error;

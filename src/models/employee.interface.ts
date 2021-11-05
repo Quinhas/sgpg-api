@@ -10,6 +10,7 @@ export interface EmployeeDTO {
   employee_salary: Prisma.Decimal;
   employee_role: number;
   created_by: number;
+  is_deleted: boolean | null;
 }
 
 export interface Employee extends EmployeeDTO {
@@ -17,8 +18,11 @@ export interface Employee extends EmployeeDTO {
   created_at: Date;
   updated_at: Date | null;
   deleted_at: Date | null;
-  is_deleted: boolean | null;
 }
 
-export interface EmployeeResponse
-  extends Omit<EmployeeDTO, "employee_password"> {}
+export interface EmployeeResponse extends Omit<Employee, "employee_password"> {}
+
+export interface Login {
+  employee_email: string;
+  employee_password: string;
+}

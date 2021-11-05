@@ -3,6 +3,7 @@ import {
   createEmployee,
   getAllEmployees,
   getEmployeeByID,
+  login,
   removeEmployee,
   updateEmployee,
   updateEmployeeDeletionState
@@ -14,5 +15,6 @@ employeeRouter.get("/", getAllEmployees);
 employeeRouter.get("/:id", getEmployeeByID);
 employeeRouter.post("/", createEmployee);
 employeeRouter.put("/:id", updateEmployee);
-employeeRouter.put("/:id",updateEmployeeDeletionState);
+employeeRouter.put("/:id", updateEmployeeDeletionState);
 employeeRouter.delete("/:id", removeEmployee);
+employeeRouter.post("/login", login);

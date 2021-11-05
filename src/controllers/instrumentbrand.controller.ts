@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import HttpException from "../common/http-exception";
 import {
-  InstrumentBrand,
-  InstrumentBrandDTO
+    InstrumentBrand,
+    InstrumentBrandDTO
 } from "../models/instrumentbrand.interface";
 import * as InstrumentBrandService from "../services/instrumentbrand.service";
 
@@ -12,7 +12,7 @@ export const getAllInstrumentBrands = async (req: Request, res: Response) => {
       await InstrumentBrandService.findAll();
     res.status(200).send({
       message: `${instrumentBrands.length} marcas retornados.`,
-      data: instrumentBrands,
+      records: instrumentBrands,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -35,7 +35,7 @@ export const getInstrumentBrandByID = async (req: Request, res: Response) => {
     if (instrumentBrand) {
       res.status(200).send({
         message: `Marca encontrada com sucesso.`,
-        data: instrumentBrand,
+        records: instrumentBrand,
       });
     } else {
       res.status(404).send({
@@ -77,7 +77,7 @@ export const createInstrumentBrand = async (
 
     res.status(201).send({
       message: `Marca criada com sucesso.`,
-      data: instrumentBrand,
+      records: instrumentBrand,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -117,7 +117,7 @@ export const updateInstrumentBrand = async (
 
     res.status(200).send({
       message: `Marca atualizada com sucesso.`,
-      data: instrumentBrand,
+      records: instrumentBrand,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -148,7 +148,7 @@ export const removeInstrumentBrand = async (
       await InstrumentBrandService.remove(id);
     res.status(200).send({
       message: `Marca excluída com sucesso.`,
-      data: instrumentBrand,
+      records: instrumentBrand,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -182,7 +182,7 @@ export const updateInstrumentBrandDeletionState = async (
 
     res.status(200).send({
       message: `InstrumentBrando deletado com sucesso.`,
-      data: deletedInstrumentBrand,
+      records: deletedInstrumentBrand,
     });
   } catch (_error) {
     const error = _error as Error;

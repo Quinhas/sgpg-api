@@ -8,7 +8,7 @@ export const getAllInstruments = async (req: Request, res: Response) => {
     const instruments: Instrument[] = await InstrumentService.findAll();
     res.status(200).send({
       message: `${instruments.length} instrumentos retornados.`,
-      data: instruments,
+      records: instruments,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -30,7 +30,7 @@ export const getInstrumentByID = async (req: Request, res: Response) => {
     if (instrument) {
       res.status(200).send({
         message: `Instrumento encontrado com sucesso.`,
-        data: instrument,
+        records: instrument,
       });
     } else {
       res.status(404).send({
@@ -63,7 +63,7 @@ export const createInstrument = async (
 
     res.status(201).send({
       message: `Instrumento criado com sucesso.`,
-      data: instrument,
+      records: instrument,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -106,7 +106,7 @@ export const updateInstrument = async (
 
     res.status(200).send({
       message: `Instrumento atualizado com sucesso.`,
-      data: instrument,
+      records: instrument,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -136,7 +136,7 @@ export const removeInstrument = async (
     const instrument: Instrument | null = await InstrumentService.remove(id);
     res.status(200).send({
       message: `Instrumento excluído com sucesso.`,
-      data: instrument,
+      records: instrument,
     });
   } catch (_error) {
     const error = _error as Error;
@@ -170,7 +170,7 @@ export const updateInstrumentDeletionState = async (
 
     res.status(200).send({
       message: `Instrumento deletado com sucesso.`,
-      data: deletedInstrument,
+      records: deletedInstrument,
     });
   } catch (_error) {
     const error = _error as Error;
