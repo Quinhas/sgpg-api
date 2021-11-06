@@ -1,7 +1,7 @@
 {
   "name": "sgpg-api",
   "version": "1.0.0",
-  "main": "build/index.js",
+  "main": "index.ts",
   "license": "MIT",
   "scripts": {
     "serve": "ts-node-dev --respawn --pretty --transpile-only src/index.ts",
