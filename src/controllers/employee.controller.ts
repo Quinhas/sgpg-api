@@ -2,10 +2,7 @@ import { Prisma } from ".prisma/client";
 import bcrypt from "bcrypt";
 import { NextFunction, Request, Response } from "express";
 import HttpException from "../common/http-exception";
-import {
-  Employee,
-  EmployeeDTO
-} from "../models/employee.interface";
+import { Employee, EmployeeDTO } from "../models/employee.interface";
 import * as EmployeeService from "../services/employee.service";
 
 export const getAllEmployees = async (req: Request, res: Response) => {
@@ -31,9 +28,7 @@ export const getEmployeeByID = async (req: Request, res: Response) => {
     res.status(400).send(new HttpException(400, "ID deve ser um número."));
   }
   try {
-    const employee: Employee | null = await EmployeeService.findByID(
-      id
-    );
+    const employee: Employee | null = await EmployeeService.findByID(id);
     if (employee) {
       res.status(200).send({
         message: `Funcionário encontrado com sucesso.`,
@@ -72,12 +67,11 @@ export const createEmployee = async (
       is_deleted: req.body.is_deleted,
     };
 
-    const existingEmployee: Employee | null =
-      await EmployeeService.findUnique(
-        _employee.employee_cpf,
-        _employee.employee_email,
-        _employee.employee_phone
-      );
+    const existingEmployee: Employee | null = await EmployeeService.findUnique(
+      _employee.employee_cpf,
+      _employee.employee_email,
+      _employee.employee_phone
+    );
     if (existingEmployee) {
       next(
         new HttpException(
@@ -88,9 +82,7 @@ export const createEmployee = async (
       return;
     }
 
-    const employee: Employee | null = await EmployeeService.create(
-      _employee
-    );
+    const employee: Employee | null = await EmployeeService.create(_employee);
 
     res.status(201).send({
       message: `Funcionário criado com sucesso.`,
@@ -130,8 +122,9 @@ export const updateEmployee = async (
   };
   console.log(_employee);
   try {
-    const existingEmployee: Employee | null =
-      await EmployeeService.findByID(id);
+    const existingEmployee: Employee | null = await EmployeeService.findByID(
+      id
+    );
     if (!existingEmployee) {
       next(new HttpException(404, `Funcionário de ID ${id} não existe.`));
       return;
@@ -164,8 +157,9 @@ export const removeEmployee = async (
   }
 
   try {
-    const existingEmployee: Employee | null =
-      await EmployeeService.findByID(id);
+    const existingEmployee: Employee | null = await EmployeeService.findByID(
+      id
+    );
     if (!existingEmployee) {
       next(new HttpException(404, `Funcionário de ID ${id} não existe.`));
       return;
@@ -201,8 +195,9 @@ export const updateEmployeeDeletionState = async (
   };
   console.log(_employee);
   try {
-    const existingEmployee: Employee | null =
-      await EmployeeService.findByID(id);
+    const existingEmployee: Employee | null = await EmployeeService.findByID(
+      id
+    );
     if (!existingEmployee) {
       next(new HttpException(404, `Funcionário de ID ${id} não existe.`));
       return;
@@ -268,6 +263,7 @@ export const login = async (
       employee_addr: existingEmployee.employee_addr,
       employee_cpf: existingEmployee.employee_cpf,
       employee_salary: existingEmployee.employee_salary,
+      employee_password: existingEmployee.employee_password,
     };
 
     if (check) {
