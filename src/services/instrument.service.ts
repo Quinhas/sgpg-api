@@ -4,13 +4,24 @@ import { Instrument, InstrumentDTO } from "../models/instrument.interface";
 const prisma = new PrismaClient();
 
 export const findAll = async (): Promise<Instrument[]> => {
-  const instruments = await prisma.instruments.findMany();
+  const instruments = await prisma.instruments.findMany({
+    include: {
+      instrumentbrand: true,
+      instrumenttype: true,
+      students: true,
+    },
+  });
   return instruments;
 };
 
 export const findByID = async (id: number): Promise<Instrument | null> => {
   const instrument = await prisma.instruments.findUnique({
     where: { instrument_id: id },
+    include: {
+      instrumentbrand: true,
+      instrumenttype: true,
+      students: true,
+    },
   });
   return instrument;
 };

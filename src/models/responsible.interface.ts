@@ -5,6 +5,7 @@ export interface ResponsibleDTO {
   responsible_phone: string | null;
   responsible_addr: string;
   created_by: number;
+  is_deleted: boolean | null;
 }
 
 export interface Responsible extends ResponsibleDTO {
@@ -12,5 +13,4 @@ export interface Responsible extends ResponsibleDTO {
   created_at: Date;
   updated_at: Date | null;
   deleted_at: Date | null;
-  is_deleted: boolean | null;
 }

@@ -4,8 +4,7 @@ import {
   getAllStudents,
   getStudentByID,
   removeStudent,
-  updateStudent,
-  updateStudentDeletionState
+  updateStudent
 } from "../controllers/student.controller";
 
 export const studentRouter = express.Router();
@@ -14,5 +13,4 @@ studentRouter.get("/", getAllStudents);
 studentRouter.get("/:id", getStudentByID);
 studentRouter.post("/", createStudent);
 studentRouter.put("/:id", updateStudent);
-studentRouter.put("/:id", updateStudentDeletionState);
 studentRouter.delete("/:id", removeStudent);

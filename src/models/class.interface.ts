@@ -5,6 +5,7 @@ export interface ClassDTO {
   class_duration: number | null;
   class_days: string | null;
   created_by: number;
+  is_deleted: boolean | null;
 }
 
 export interface Class extends ClassDTO {
@@ -12,5 +13,4 @@ export interface Class extends ClassDTO {
   created_at: Date;
   updated_at: Date | null;
   deleted_at: Date | null;
-  is_deleted: boolean | null;
 }

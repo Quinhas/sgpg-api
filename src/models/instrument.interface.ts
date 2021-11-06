@@ -4,6 +4,7 @@ export interface InstrumentDTO {
   instrument_brand: number;
   instrument_student: number | null;
   created_by: number;
+  is_deleted: boolean | null;
 }
 
 export interface Instrument extends InstrumentDTO {
@@ -11,5 +12,4 @@ export interface Instrument extends InstrumentDTO {
   created_at: Date;
   updated_at: Date | null;
   deleted_at: Date | null;
-  is_deleted: boolean | null;
 }

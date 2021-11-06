@@ -3,6 +3,7 @@ export interface InstrumentBrandDTO {
   instrumentbrand_desc: string | null;
   instrumentbrand_logo: string | null;
   created_by: number;
+  is_deleted: boolean | null;
 }
 
 export interface InstrumentBrand extends InstrumentBrandDTO {
@@ -10,5 +11,4 @@ export interface InstrumentBrand extends InstrumentBrandDTO {
   created_at: Date;
   updated_at: Date | null;
   deleted_at: Date | null;
-  is_deleted: boolean | null;
 }

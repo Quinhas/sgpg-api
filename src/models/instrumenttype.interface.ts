@@ -2,6 +2,7 @@ export interface InstrumentTypeDTO {
   instrumenttype_name: string;
   instrumenttype_desc: string | null;
   created_by: number;
+  is_deleted: boolean | null;
 }
 
 export interface InstrumentType extends InstrumentTypeDTO {
@@ -9,5 +10,4 @@ export interface InstrumentType extends InstrumentTypeDTO {
   created_at: Date;
   updated_at: Date | null;
   deleted_at: Date | null;
-  is_deleted: boolean | null;
 }

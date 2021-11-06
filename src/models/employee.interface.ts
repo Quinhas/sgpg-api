@@ -19,9 +19,6 @@ export interface Employee extends EmployeeDTO {
   updated_at: Date | null;
   deleted_at: Date | null;
 }
-
-export interface EmployeeResponse extends Omit<Employee, "employee_password"> {}
-
 export interface Login {
   employee_email: string;
   employee_password: string;
