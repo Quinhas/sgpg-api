@@ -10,6 +10,7 @@ export interface StudentDTO {
   student_responsible: number | null;
   student_scholarship: Prisma.Decimal | null;
   created_by: number;
+  is_deleted: boolean | null;
 }
 
 export interface Student extends StudentDTO {
@@ -17,5 +18,4 @@ export interface Student extends StudentDTO {
   created_at: Date;
   updated_at: Date | null;
   deleted_at: Date | null;
-  is_deleted: boolean | null;
 }

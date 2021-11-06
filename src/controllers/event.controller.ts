@@ -53,6 +53,7 @@ export const createEvent = async (
       event_name: req.body.event_name,
       event_desc: req.body.event_desc,
       created_by: req.body.created_by,
+      is_deleted: req.body.is_deleted,
     };
 
 

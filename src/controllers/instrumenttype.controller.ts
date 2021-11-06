@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import HttpException from "../common/http-exception";
 import {
-    InstrumentType,
-    InstrumentTypeDTO
+  InstrumentType,
+  InstrumentTypeDTO
 } from "../models/instrumenttype.interface";
 import * as InstrumentTypeService from "../services/instrumenttype.service";
 
@@ -58,6 +58,7 @@ export const createInstrumentType = async (
       instrumenttype_name: req.body.instrumenttype_name,
       instrumenttype_desc: req.body.instrumenttype_desc,
       created_by: req.body.created_by,
+      is_deleted: req.body.is_deleted,
     };
 
     const existingInstrumentType: InstrumentType | null =
@@ -170,13 +171,15 @@ export const updateInstrumentTypeDeletionState = async (
   };
   console.log(_instrumentType);
   try {
-    const existingInstrumentType: InstrumentType | null = await InstrumentTypeService.findByID(id);
+    const existingInstrumentType: InstrumentType | null =
+      await InstrumentTypeService.findByID(id);
     if (!existingInstrumentType) {
       next(new HttpException(404, `Clase de ID ${id} não existe.`));
       return;
     }
 
-    const deletedInstrumentType: InstrumentType | null = await InstrumentTypeService.update(id,_instrumentType);
+    const deletedInstrumentType: InstrumentType | null =
+      await InstrumentTypeService.update(id, _instrumentType);
 
     res.status(200).send({
       message: `InstrumentTypee deletada com sucesso.`,
@@ -187,4 +190,3 @@ export const updateInstrumentTypeDeletionState = async (
     res.status(500).send(new HttpException(500, error.message));
   }
 };
-

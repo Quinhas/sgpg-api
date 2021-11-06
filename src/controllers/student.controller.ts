@@ -57,19 +57,22 @@ export const createStudent = async (
       student_phone: req.body.student_phone,
       student_addr: req.body.student_addr,
       student_responsible: req.body.student_responsible,
-      student_scholarship: req.body.student_scholarship,  
+      student_scholarship: req.body.student_scholarship,
       created_by: req.body.created_by,
+      is_deleted: req.body.is_deleted,
     };
 
-    const existingStudent: Student  | null =
-    await StudentService.findUnique(
+    const existingStudent: Student | null = await StudentService.findUnique(
       _student.student_cpf,
       _student.student_email,
-      _student.student_phone,
+      _student.student_phone
     );
     if (existingStudent) {
       next(
-        new HttpException(404, `Estudante já está cadastrado no banco de dados.`)
+        new HttpException(
+          404,
+          `Estudante já está cadastrado no banco de dados.`
+        )
       );
       return;
     }
@@ -105,7 +108,7 @@ export const updateStudent = async (
     student_phone: req.body.student_phone,
     student_addr: req.body.student_addr,
     student_responsible: req.body.student_responsible,
-    student_scholarship: req.body.student_scholarship,  
+    student_scholarship: req.body.student_scholarship,
     created_by: req.body.created_by,
     is_deleted: req.body.is_deleted,
     deleted_at: req.body.is_deleted ? new Date() : null,
@@ -117,7 +120,10 @@ export const updateStudent = async (
       return;
     }
 
-    const updatedStudent: Student | null = await StudentService.update(id, _student);
+    const updatedStudent: Student | null = await StudentService.update(
+      id,
+      _student
+    );
 
     res.status(200).send({
       message: `Estudante atualizado com sucesso.`,
@@ -180,7 +186,10 @@ export const updateStudentDeletionState = async (
       return;
     }
 
-    const deletedStudent: Student | null = await StudentService.update(id,_student);
+    const deletedStudent: Student | null = await StudentService.update(
+      id,
+      _student
+    );
 
     res.status(200).send({
       message: `Studente deletada com sucesso.`,

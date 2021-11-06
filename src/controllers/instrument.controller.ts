@@ -55,6 +55,7 @@ export const createInstrument = async (
       instrument_model: req.body.instrument_model,
       instrument_student: req.body.instrument_student,
       created_by: req.body.created_by,
+      is_deleted: req.body.is_deleted,
     };
 
     const instrument: Instrument | null = await InstrumentService.create(

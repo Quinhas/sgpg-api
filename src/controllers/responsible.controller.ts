@@ -26,7 +26,9 @@ export const getResponsibleByID = async (req: Request, res: Response) => {
     res.status(400).send(new HttpException(400, "ID deve ser um número."));
   }
   try {
-    const _responsible: Responsible | null = await ResponsibleService.findByID(id);
+    const _responsible: Responsible | null = await ResponsibleService.findByID(
+      id
+    );
     if (_responsible) {
       res.status(200).send({
         message: `Responsável encontrado com sucesso.`,
@@ -56,22 +58,28 @@ export const createResponsible = async (
       responsible_phone: req.body.responsible_phone,
       responsible_addr: req.body.responsible_addr,
       created_by: req.body.created_by,
+      is_deleted: req.body.is_deleted,
     };
 
-    const existingResponsible: Responsible  | null =
-    await ResponsibleService.findUnique(
-      _responsible.responsible_cpf,
-      _responsible.responsible_email,
-      _responsible.responsible_phone,
-    );
+    const existingResponsible: Responsible | null =
+      await ResponsibleService.findUnique(
+        _responsible.responsible_cpf,
+        _responsible.responsible_email,
+        _responsible.responsible_phone
+      );
     if (existingResponsible) {
       next(
-        new HttpException(404, `Responsável já está cadastrado no banco de dados.`)
+        new HttpException(
+          404,
+          `Responsável já está cadastrado no banco de dados.`
+        )
       );
       return;
     }
 
-    const newResponsible: Responsible | null = await ResponsibleService.create(_responsible);
+    const newResponsible: Responsible | null = await ResponsibleService.create(
+      _responsible
+    );
 
     res.status(201).send({
       message: `Responsável criado com sucesso.`,
@@ -105,13 +113,15 @@ export const updateResponsible = async (
     deleted_at: req.body.is_deleted ? new Date() : null,
   };
   try {
-    const existingResponsible: Responsible | null = await ResponsibleService.findByID(id);
+    const existingResponsible: Responsible | null =
+      await ResponsibleService.findByID(id);
     if (!existingResponsible) {
       next(new HttpException(404, `Responsável de ID ${id} não existe.`));
       return;
     }
 
-    const updatedResponsible: Responsible | null = await ResponsibleService.update(id, _responsible);
+    const updatedResponsible: Responsible | null =
+      await ResponsibleService.update(id, _responsible);
 
     res.status(200).send({
       message: `Responsável atualizado com sucesso.`,
@@ -135,13 +145,16 @@ export const removeResponsible = async (
   }
 
   try {
-    const existingResponsible: Responsible | null = await ResponsibleService.findByID(id);
+    const existingResponsible: Responsible | null =
+      await ResponsibleService.findByID(id);
     if (!existingResponsible) {
       next(new HttpException(404, `Responsável de ID ${id} não existe.`));
       return;
     }
 
-    const _responsible: Responsible | null = await ResponsibleService.remove(id);
+    const _responsible: Responsible | null = await ResponsibleService.remove(
+      id
+    );
     res.status(200).send({
       message: `Turma excluída com sucesso.`,
       records: _responsible,
@@ -168,13 +181,15 @@ export const updateResponsibleDeletionState = async (
   };
   console.log(_responsible);
   try {
-    const existingResponsible: Responsible | null = await ResponsibleService.findByID(id);
+    const existingResponsible: Responsible | null =
+      await ResponsibleService.findByID(id);
     if (!existingResponsible) {
       next(new HttpException(404, `Clase de ID ${id} não existe.`));
       return;
     }
 
-    const deletedResponsible: Responsible | null = await ResponsibleService.update(id,_responsible);
+    const deletedResponsible: Responsible | null =
+      await ResponsibleService.update(id, _responsible);
 
     res.status(200).send({
       message: `Responsiblee deletada com sucesso.`,
@@ -185,4 +200,3 @@ export const updateResponsibleDeletionState = async (
     res.status(500).send(new HttpException(500, error.message));
   }
 };
-

@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import HttpException from "../common/http-exception";
 import {
-    InstrumentBrand,
-    InstrumentBrandDTO
+  InstrumentBrand,
+  InstrumentBrandDTO
 } from "../models/instrumentbrand.interface";
 import * as InstrumentBrandService from "../services/instrumentbrand.service";
 
@@ -59,6 +59,7 @@ export const createInstrumentBrand = async (
       instrumentbrand_desc: req.body.instrumentbrand_desc,
       instrumentbrand_logo: req.body.instrumentbrand_logo,
       created_by: req.body.created_by,
+      is_deleted: req.body.is_deleted,
     };
 
     const existingInstrumentBrand: InstrumentBrand | null =
@@ -172,13 +173,15 @@ export const updateInstrumentBrandDeletionState = async (
   };
   console.log(_instrumentBrand);
   try {
-    const existingInstrumentBrand: InstrumentBrand | null = await InstrumentBrandService.findByID(id);
+    const existingInstrumentBrand: InstrumentBrand | null =
+      await InstrumentBrandService.findByID(id);
     if (!existingInstrumentBrand) {
       next(new HttpException(404, `Clase de ID ${id} não existe.`));
       return;
     }
 
-    const deletedInstrumentBrand: InstrumentBrand | null = await InstrumentBrandService.update(id,_instrumentBrand);
+    const deletedInstrumentBrand: InstrumentBrand | null =
+      await InstrumentBrandService.update(id, _instrumentBrand);
 
     res.status(200).send({
       message: `InstrumentBrando deletado com sucesso.`,

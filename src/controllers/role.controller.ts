@@ -53,6 +53,7 @@ export const createRole = async (
       role_title: req.body.role_title,
       role_desc: req.body.role_desc,
       created_by: req.body.created_by,
+      is_deleted: req.body.is_deleted,
     };
 
     const existingRole: Role | null = await RoleService.findUnique(

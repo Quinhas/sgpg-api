@@ -56,6 +56,7 @@ export const createClass = async (
       class_duration: req.body.class_duration,
       class_teacher: req.body.class_teacher,
       created_by: req.body.created_by,
+      is_deleted: req.body.is_deleted,
     };
 
     const existingClass: Class | null = await ClassService.findUnique(
@@ -170,7 +171,7 @@ export const updateClassDeletionState = async (
       return;
     }
 
-    const deletedClass: Class | null = await ClassService.update(id,_class);
+    const deletedClass: Class | null = await ClassService.update(id, _class);
 
     res.status(200).send({
       message: `Classe deletada com sucesso.`,
