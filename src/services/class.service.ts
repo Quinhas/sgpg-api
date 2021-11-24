@@ -4,7 +4,11 @@ import { Class, ClassDTO } from "../models/class.interface";
 const prisma = new PrismaClient();
 
 export const findAll = async (): Promise<Class[]> => {
-  const classes = await prisma.classes.findMany();
+  const classes = await prisma.classes.findMany({
+    include: {
+      employees: true,
+    },
+  });
   return classes;
 };
 
