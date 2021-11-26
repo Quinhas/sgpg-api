@@ -9,6 +9,7 @@ export const findAll = async (): Promise<Employee[]> => {
     include: {
       roles: true,
     },
+    skip: 1,
   });
   return employees;
 };
