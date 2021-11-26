@@ -80,7 +80,7 @@ export const createStudent = async (
     const newStudent: Student | null = await StudentService.create(_student);
 
     res.status(201).send({
-      message: `Estudente criado com sucesso.`,
+      message: `Estudante criado com sucesso.`,
       records: newStudent,
     });
   } catch (_error) {
@@ -155,7 +155,7 @@ export const removeStudent = async (
 
     const _student: Student | null = await StudentService.remove(id);
     res.status(200).send({
-      message: `Turma excluída com sucesso.`,
+      message: `Estudante excluído com sucesso.`,
       records: _student,
     });
   } catch (_error) {
@@ -182,7 +182,7 @@ export const updateStudentDeletionState = async (
   try {
     const existingStudent: Student | null = await StudentService.findByID(id);
     if (!existingStudent) {
-      next(new HttpException(404, `Clase de ID ${id} não existe.`));
+      next(new HttpException(404, `Estudante de ID ${id} não existe.`));
       return;
     }
 
@@ -192,7 +192,7 @@ export const updateStudentDeletionState = async (
     );
 
     res.status(200).send({
-      message: `Studente deletada com sucesso.`,
+      message: `Estudante deletado com sucesso.`,
       records: deletedStudent,
     });
   } catch (_error) {

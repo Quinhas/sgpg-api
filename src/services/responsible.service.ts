@@ -23,7 +23,7 @@ export const findUnique = async (
           responsible_email: email,
         },
         {
-          responsible_phone: phone,
+          responsible_phone: phone ?? undefined,
         },
       ],
     },

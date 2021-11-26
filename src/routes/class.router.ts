@@ -1,7 +1,7 @@
 import express from "express";
 import {
-  createClass,
-  getAllClasses,
+  createClass, createStudentOfClass,
+  deleteStudentOfClass, getAllClasses,
   getClassByID,
   removeClass,
   updateClass
@@ -12,5 +12,7 @@ export const classRouter = express.Router();
 classRouter.get("/", getAllClasses);
 classRouter.get("/:id", getClassByID);
 classRouter.post("/", createClass);
+classRouter.post("/:id", createStudentOfClass);
 classRouter.put("/:id", updateClass);
 classRouter.delete("/:id", removeClass);
+classRouter.delete("/:classId/:studentId", deleteStudentOfClass);

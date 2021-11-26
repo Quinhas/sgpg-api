@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import HttpException from "../common/http-exception";
 import { Class, ClassDTO } from "../models/class.interface";
+import { SocDTO, StudentOfClass } from "../models/soc.interface";
 import * as ClassService from "../services/class.service";
 
 export const getAllClasses = async (req: Request, res: Response) => {
@@ -148,6 +149,92 @@ export const removeClass = async (
     res.status(500).send(new HttpException(500, error.message));
   }
 };
+
+export const createStudentOfClass = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const id = Number(req.params.id);
+
+  if (isNaN(id)) {
+    next(new HttpException(400, "ID deve ser um número."));
+    return;
+  }
+
+  try {
+    const studentClass: SocDTO = {
+      class_id: req.body.class_id,
+      student_id: req.body.student_id,
+      created_by: req.body.created_by,
+    };
+
+    const existingSoc: StudentOfClass | null = await ClassService.findSocUnique(
+      studentClass.class_id,
+      studentClass.student_id
+    );
+    if (existingSoc) {
+      next(new HttpException(404, `Estudante já está cadastrado na turma.`));
+      return;
+    }
+
+    const newStudentClass: StudentOfClass | null =
+      await ClassService.createStudentOfClass(studentClass);
+
+    res.status(201).send({
+      message: `Estudante incluído na turma com sucesso.`,
+      records: newStudentClass,
+    });
+  } catch (_error) {
+    const error = _error as Error;
+    res.status(500).send(new HttpException(500, error.message));
+  }
+};
+
+export const deleteStudentOfClass = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const classId = Number(req.params.classId);
+  if (isNaN(classId)) {
+    next(new HttpException(400, "ID da turma deve ser um número."));
+    return;
+  }
+
+  const studentId = Number(req.params.studentId);
+  if (isNaN(studentId)) {
+    next(new HttpException(400, "ID do aluno deve ser um número."));
+    return;
+  }
+
+  try {
+    const existingSoc: StudentOfClass | null = await ClassService.findSocUnique(
+      classId,
+      studentId
+    );
+    if (!existingSoc) {
+      next(
+        new HttpException(
+          404,
+          `Aluno de ID ${studentId} não está cadastrado na turma de ID ${classId}.`
+        )
+      );
+      return;
+    }
+
+    const deletedStudentClass: StudentOfClass | null =
+      await ClassService.removeStudentOfClass(classId, studentId);
+    res.status(200).send({
+      message: `Estudante removido da turma com sucesso.`,
+      records: deletedStudentClass,
+    });
+  } catch (_error) {
+    const error = _error as Error;
+    res.status(500).send(new HttpException(500, error.message));
+  }
+};
+
 export const updateClassDeletionState = async (
   req: Request,
   res: Response,

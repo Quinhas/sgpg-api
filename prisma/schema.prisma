@@ -8,18 +8,19 @@ datasource db {
 }
 
 model classes {
-  class_id       Int        @id @default(autoincrement())
-  class_name     String     @unique(map: "class_name") @db.VarChar(80)
-  class_desc     String?    @db.VarChar(350)
-  class_teacher  Int?
-  class_duration Int?
-  class_days     String?
-  created_by     Int
-  created_at     DateTime   @default(now()) @db.DateTime(0)
-  updated_at     DateTime?  @db.DateTime(0)
-  deleted_at     DateTime?  @db.DateTime(0)
-  is_deleted     Boolean?   @default(false)
-  employees      employees? @relation(fields: [class_teacher], references: [employee_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_class_teacher")
+  class_id        Int               @id @default(autoincrement())
+  class_name      String            @unique(map: "class_name") @db.VarChar(80)
+  class_desc      String?           @db.VarChar(350)
+  class_teacher   Int?
+  class_duration  Int?
+  class_days      String?
+  created_by      Int
+  created_at      DateTime          @default(now()) @db.DateTime(0)
+  updated_at      DateTime?         @db.DateTime(0)
+  deleted_at      DateTime?         @db.DateTime(0)
+  is_deleted      Boolean?          @default(false)
+  employees       employees?        @relation(fields: [class_teacher], references: [employee_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_class_teacher")
+  studentsofclass studentsofclass[]
 
   @@index([class_teacher], map: "FK_class_teacher")
 }
@@ -106,7 +107,7 @@ model responsibles {
   responsible_name  String     @db.VarChar(80)
   responsible_cpf   String     @unique(map: "responsible_cpf") @db.VarChar(11)
   responsible_email String?    @unique(map: "responsible_email") @db.VarChar(100)
-  responsible_phone String?    @unique(map: "responsible_phone") @db.VarChar(13)
+  responsible_phone String     @unique(map: "responsible_phone") @db.VarChar(13)
   responsible_addr  String     @db.VarChar(150)
   created_by        Int
   created_at        DateTime   @default(now()) @db.DateTime(0)
@@ -129,22 +130,35 @@ model roles {
 }
 
 model students {
-  student_id          Int           @id @default(autoincrement())
-  student_name        String        @db.VarChar(80)
-  student_rg          String?       @db.VarChar(9)
-  student_cpf         String        @unique(map: "student_cpf") @db.VarChar(11)
-  student_email       String?       @unique(map: "student_email") @db.VarChar(100)
-  student_phone       String?       @unique(map: "student_phone") @db.VarChar(13)
-  student_addr        String        @db.VarChar(150)
+  student_id          Int               @id @default(autoincrement())
+  student_name        String            @db.VarChar(80)
+  student_rg          String?           @db.VarChar(9)
+  student_cpf         String            @unique(map: "student_cpf") @db.VarChar(11)
+  student_email       String?           @unique(map: "student_email") @db.VarChar(100)
+  student_phone       String?           @unique(map: "student_phone") @db.VarChar(13)
+  student_addr        String            @db.VarChar(150)
   student_responsible Int?
-  student_scholarship Decimal?      @db.Decimal(10, 2)
+  student_scholarship Decimal?          @db.Decimal(10, 2)
   created_by          Int
-  created_at          DateTime      @default(now()) @db.DateTime(0)
-  updated_at          DateTime?     @db.DateTime(0)
-  deleted_at          DateTime?     @db.DateTime(0)
-  is_deleted          Boolean?      @default(false)
-  responsibles        responsibles? @relation(fields: [student_responsible], references: [responsible_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_student_responsible")
+  created_at          DateTime          @default(now()) @db.DateTime(0)
+  updated_at          DateTime?         @db.DateTime(0)
+  deleted_at          DateTime?         @db.DateTime(0)
+  is_deleted          Boolean?          @default(false)
+  responsibles        responsibles?     @relation(fields: [student_responsible], references: [responsible_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_student_responsible")
   instruments         instruments[]
+  studentsofclass     studentsofclass[]
 
   @@index([student_responsible], map: "FK_student_responsible")
+}
+
+model studentsofclass {
+  student_id Int
+  class_id   Int
+  created_by Int
+  created_at DateTime @default(now()) @db.DateTime(0)
+  classes    classes  @relation(fields: [class_id], references: [class_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_soc_class")
+  students   students @relation(fields: [student_id], references: [student_id], onDelete: NoAction, onUpdate: NoAction, map: "FK_soc_students")
+
+  @@id([student_id, class_id])
+  @@index([class_id], map: "FK_soc_class")
 }

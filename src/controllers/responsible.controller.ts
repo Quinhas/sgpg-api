@@ -55,7 +55,7 @@ export const createResponsible = async (
       responsible_name: req.body.responsible_name,
       responsible_cpf: req.body.responsible_cpf,
       responsible_email: req.body.responsible_email,
-      responsible_phone: req.body.responsible_phone,
+      responsible_phone: req.body.responsible_phone ?? null,
       responsible_addr: req.body.responsible_addr,
       created_by: req.body.created_by,
       is_deleted: req.body.is_deleted,
